@@ -3,6 +3,7 @@ from markdown_blocks import (
     markdown_to_blocks,
     block_to_block_type,
     markdown_to_html_node,
+    extract_title,
     BlockType
 )
 from pdb import Restart
@@ -182,6 +183,25 @@ with multiple lines
         )
 
         self.assertEqual(html, expected)
+
+    def test_extract_title(self):
+        md = """# Welcome to My Page
+
+This is an _awesome_ paragraph with **bold text** and `inline code`."""
+
+        title = extract_title(md)
+        expected = ("Welcome to My Page")
+
+        self.assertEqual(title, expected)
+
+    def test_extract_title_exception(self):
+        md = """## Welcome to My Page
+
+This is an _awesome_ paragraph with **bold text** and `inline code`."""
+
+        with self.assertRaises(Exception) as context:
+            extract_title(md)
+            self.assertEqual(str(context.exception), "Title not found")
 
 if __name__ == "__main__":
     unittest.main()

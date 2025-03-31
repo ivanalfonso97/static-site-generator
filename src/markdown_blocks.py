@@ -111,3 +111,12 @@ def block_to_paragraph(block):
     normalized = block.replace("\n", " ")
     html_nodes = convert_textnodes_to_htmlnodes(text_to_textnodes(normalized))
     return ParentNode("p", html_nodes)
+
+def extract_title(markdown):
+    markdown_blocks = markdown_to_blocks(markdown)
+
+    for block in markdown_blocks:
+        if block.startswith("# "):
+            return block.lstrip("# ").strip()
+
+    raise Exception("Title not found")
