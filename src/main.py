@@ -1,5 +1,3 @@
-from re import T
-from textnode import TextNode, TextType
 from utils import copy_images_to_public, generate_pages_recursive
 import os
 
