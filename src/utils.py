@@ -34,8 +34,6 @@ def generate_page(from_path, template_path, dest_path):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     if not os.path.exists(from_path):
         raise Exception("Source path does not exist", from_path)
-    if not os.path.exists(template_path):
-        raise Exception("Template path does not exist", template_path)
     if not os.path.exists(dest_path):
         raise Exception("Destination path does not exist", dest_path)
 
@@ -52,3 +50,24 @@ def generate_page(from_path, template_path, dest_path):
     index_html_path = os.path.join(dest_path, "index.html")
     with open(index_html_path, "w", encoding="utf-8") as f:
         f.write(html)
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    if not os.path.exists(template_path):
+        raise Exception("Template path does not exist", template_path)
+
+    branches = os.listdir(dir_path_content)
+    if len(branches) == 0:
+        return
+
+    for branch in branches:
+        if branch.startswith("."):
+            continue
+
+        content_path = os.path.join(dir_path_content, branch)
+        destination_path = os.path.join(dest_dir_path, branch)
+
+        if os.path.isfile(content_path) and branch == "index.md":
+            generate_page(content_path, template_path, dest_dir_path)
+        elif os.path.isdir(content_path):
+            os.mkdir(destination_path)
+            generate_pages_recursive(content_path, template_path, destination_path)

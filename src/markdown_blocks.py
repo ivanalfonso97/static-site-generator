@@ -15,12 +15,6 @@ class BlockType(Enum):
     ORDERED_LIST = "ordered_list"
 
 def markdown_to_blocks(markdown):
-    # markdown = markdown.strip()
-
-    # lines = markdown.splitlines()
-    # cleaned_lines = [line.lstrip() for line in lines]
-    # cleaned_markdown = "\n".join(cleaned_lines)
-
     blocks = markdown.split("\n\n")
     return [block.strip() for block in blocks if block.strip() != ""]
 
@@ -85,7 +79,7 @@ def block_to_blockquote(block):
     lines = block.strip().split("\n")
     quote_text = " ".join([re.sub(r"^>\s?", "", line) for line in lines])
     html_nodes = convert_textnodes_to_htmlnodes(text_to_textnodes(quote_text))
-    return ParentNode("blockquote", [ParentNode("p", html_nodes)])
+    return ParentNode("blockquote", html_nodes)
 
 def block_to_unordered_list(block):
     lines = block.strip().split("\n")

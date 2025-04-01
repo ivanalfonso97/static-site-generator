@@ -1,6 +1,6 @@
 from re import T
 from textnode import TextNode, TextType
-from utils import copy_images_to_public, generate_page
+from utils import copy_images_to_public, generate_pages_recursive
 import os
 
 def main():
@@ -9,11 +9,11 @@ def main():
     public_directory = os.path.join(base_directory, "public")
     static_directory = os.path.join(base_directory, "static")
 
-    markdown_path = os.path.join(base_directory, "content/index.md")
+    markdown_path = os.path.join(base_directory, "content")
     template_path = os.path.join(base_directory, "template.html")
     destination_directory = os.path.join(base_directory, "public")
 
     copy_images_to_public(static_directory, public_directory)
-    generate_page(markdown_path, template_path, destination_directory)
+    generate_pages_recursive(markdown_path, template_path, destination_directory)
 
 main()
